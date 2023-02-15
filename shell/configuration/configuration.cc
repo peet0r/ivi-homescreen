@@ -49,6 +49,9 @@ void Configuration::getViewParameters(
   if (obj.HasMember(kHeightKey) && obj[kHeightKey].IsInt()) {
     instance.view.height = obj[kHeightKey].GetInt();
   }
+  if (obj.HasMember(kPixelRatioKey) && obj[kPixelRatioKey].IsNumber()) {
+    instance.view.pixel_ratio = obj[kPixelRatioKey].GetInt();
+  }
   if (obj.HasMember(kAccessibilityFeaturesKey) &&
       obj[kAccessibilityFeaturesKey].IsInt()) {
     instance.view.accessibility_features =
@@ -111,6 +114,9 @@ void Configuration::getGlobalParameters(
   }
   if (obj.HasMember(kHeightKey) && obj[kHeightKey].IsInt()) {
     instance.view.height = obj[kHeightKey].GetInt();
+  }
+  if (obj.HasMember(kPixelRatioKey) && obj[kPixelRatioKey].IsNumber()) {
+    instance.view.pixel_ratio = obj[kPixelRatioKey].GetInt();
   }
   if (obj.HasMember(kFullscreenKey) && obj[kFullscreenKey].IsBool()) {
     instance.view.fullscreen = obj[kFullscreenKey].GetBool();
@@ -178,6 +184,9 @@ void Configuration::getCliOverrides(Config& instance, Config& cli) {
   if (cli.view.height > 0) {
     instance.view.height = cli.view.height;
   }
+  if (cli.view.pixel_ratio <= 0.0) {
+    instance.view.width = kDefaultViewPixelRatio;
+  }
   if (cli.view.fullscreen != instance.view.fullscreen) {
     instance.view.fullscreen = cli.view.fullscreen;
   }
@@ -220,7 +229,9 @@ std::vector<struct Configuration::Config> Configuration::ParseConfig(
     if (cfg.view.height == 0) {
       cfg.view.height = kDefaultViewHeight;
     }
-
+    if (cfg.view.pixel_ratio <= 0.0) {
+      cfg.view.width = kDefaultViewPixelRatio;
+    }
     res.emplace_back(cfg);
   }
   assert(res.capacity() == view_count);

@@ -36,6 +36,7 @@ class Configuration {
       int32_t accessibility_features;
       uint32_t width;
       uint32_t height;
+      double pixel_ratio;
       bool fullscreen;
       uint32_t fps_output_console;
       uint32_t fps_output_overlay;
@@ -56,6 +57,7 @@ class Configuration {
   static constexpr char kWindowTypeKey[] = "window_type";
   static constexpr char kWidthKey[] = "width";
   static constexpr char kHeightKey[] = "height";
+  static constexpr char kPixelRatioKey[] = "pixel_ratio";
   static constexpr char kAccessibilityFeaturesKey[] = "accessibility_features";
   static constexpr char kVmArgsKey[] = "vm_args";
   static constexpr char kFullscreenKey[] = "fullscreen";

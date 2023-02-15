@@ -141,6 +141,21 @@ int main(int argc, char** argv) {
       config.view.height = static_cast<uint32_t>(std::stoul(height_str));
       RemoveArgument(config.view.vm_args, "--h=" + height_str);
     }
+    if (cl.HasOption("r")) {
+      std::string pixel_ratio_str;
+      cl.GetOptionValue("r", &pixel_ratio_str);
+      if (!IsNumber(pixel_ratio_str)) {
+        FML_LOG(ERROR) << "--r option (Height) requires an integer value";
+        return EXIT_FAILURE;
+      }
+      if (pixel_ratio_str.empty()) {
+        FML_LOG(ERROR)
+            << "--r option (pixel_ratio) requires an argument (e.g. --r=1.2)";
+        return EXIT_FAILURE;
+      }
+      config.view.pixel_ratio = static_cast<double>(std::stod(pixel_ratio_str));
+      RemoveArgument(config.view.vm_args, "--r=" + pixel_ratio_str);
+    }
     if (cl.HasOption("t")) {
       cl.GetOptionValue("t", &config.cursor_theme);
       if (config.cursor_theme.empty()) {
